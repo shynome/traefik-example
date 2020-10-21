@@ -1,0 +1,20 @@
+version: '3'
+services:
+  proxy:
+    image: traefik:v2.3
+    ports:
+        - 80:80
+        - 443:443
+        - 8080:8080
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - ./traefik.yml:/etc/traefik/traefik.yml
+        - ./ssl:/etc/traefik/ssl:rslave
+        - ./conf:/etc/traefik/conf:rslave
+  whoami:
+    image: traefik/whoami
+    labels:
+      - 'traefik.http.routers.whoami.rule=Host(`lo.wsl.fun`)'
+      - 'traefik.http.routers.whoami.tls=true'
+      - 'traefik.http.routers.whoami.tls.options=sgroup@file'
+      - 'traefik.http.middlewares.whoami.passtlsclientcert.pem=true'

@@ -1,0 +1,13 @@
+tls:
+  certificates:
+    - certFile: /etc/traefik/ssl/lo.wsl.fun.pem
+      keyFile: /etc/traefik/ssl/lo.wsl.fun.key
+  options:
+    sgroup:
+      clientAuth:
+        # in PEM format. each file can contain multiple CAs.
+        caFiles:
+          - /etc/traefik/ssl/sgroup.pem
+        clientAuthType: RequireAndVerifyClientCert
+        # clientAuthType: NoClientCert
+
